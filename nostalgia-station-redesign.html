@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nostalgia Station — Authentic Historical Photography & Antique Maps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1A1410;--parchment:#F7F2EA;--gold:#B8860B;--gold-b:#D4A843;
+  --sepia:#3D2B1F;--sepia-m:#6B4E35;--smoke:#9A8B7D;--cream:#EDE8DE;--white:#FDFAF5;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Lora',Georgia,serif;background:var(--parchment);color:var(--ink);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button,input,select{font-family:'Lora',Georgia,serif;cursor:pointer}
+
+/* ─── NAV ─────────────────────────────────────── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;
+  display:flex;align-items:center;padding:0 clamp(16px,4vw,56px);
+  transition:background .35s,border-color .35s;border-bottom:1px solid transparent;
+}
+#nav.scrolled{background:rgba(26,20,16,.96);border-bottom-color:rgba(107,78,53,.4)}
+.nav-logo{
+  font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;
+  color:var(--parchment);letter-spacing:.1em;text-transform:uppercase;flex-shrink:0
+}
+.nav-logo em{font-style:normal;color:var(--gold-b)}
+.nav-links{list-style:none;display:flex;gap:30px;margin:0 auto}
+.nav-links a{
+  font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(247,242,234,.65);transition:color .2s
+}
+.nav-links a:hover{color:var(--parchment)}
+.nav-cta{
+  font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;
+  padding:9px 20px;border:1px solid var(--gold);color:var(--gold-b);background:transparent;transition:all .2s
+}
+.nav-cta:hover{background:var(--gold);color:var(--ink)}
+@media(max-width:760px){.nav-links{display:none}}
+
+/* ─── HERO ────────────────────────────────────── */
+.hero{
+  position:relative;height:100vh;min-height:580px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;background:#0E0A07
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:url('https://i.vimeocdn.com/video/1709791961-241037584cb7d0a27a5a846767c648b119ca34003cb4e3a85b8f1b0d7add6ae7-d') center/cover no-repeat;
+  filter:sepia(85%) brightness(.06) contrast(1.1);
+  animation:develop 3.8s cubic-bezier(.25,.46,.45,.94) .2s forwards
+}
+@keyframes develop{to{filter:sepia(70%) brightness(.3) contrast(1.1)}}
+.hero-vig{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,transparent 35%,rgba(14,10,7,.72) 100%);
+  pointer-events:none
+}
+.hero-content{
+  position:relative;z-index:2;text-align:center;
+  padding:0 clamp(20px,6vw,100px);max-width:980px;
+  opacity:0;animation:riseIn 1.2s 2.2s ease-out forwards
+}
+@keyframes riseIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.hero-eye{
+  font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.35em;
+  text-transform:uppercase;color:var(--gold-b);margin-bottom:22px
+}
+.hero-h1{
+  font-family:'Playfair Display',serif;font-size:clamp(3rem,8.5vw,6.8rem);
+  font-weight:900;line-height:.94;color:var(--parchment);margin-bottom:26px
+}
+.hero-h1 em{font-style:italic;color:var(--gold-b)}
+.hero-sub{
+  font-size:clamp(.92rem,2vw,1.08rem);line-height:1.8;
+  color:rgba(247,242,234,.62);max-width:580px;margin:0 auto 44px
+}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-gold{
+  font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;
+  padding:15px 38px;background:var(--gold);color:var(--ink);font-weight:700;border:none;transition:background .2s;display:inline-block
+}
+.btn-gold:hover{background:var(--gold-b)}
+.btn-ghost{
+  font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;
+  padding:15px 38px;background:transparent;border:1px solid rgba(247,242,234,.4);color:var(--parchment);transition:all .2s;display:inline-block
+}
+.btn-ghost:hover{border-color:var(--parchment);background:rgba(247,242,234,.06)}
+.hero-scroll{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);text-align:center;
+  opacity:0;animation:riseIn 1s 3.8s ease-out forwards
+}
+.hero-scroll span{
+  font-family:'Space Mono',monospace;font-size:.53rem;letter-spacing:.3em;
+  text-transform:uppercase;color:rgba(247,242,234,.32);display:block;margin-bottom:10px
+}
+.scroll-tick{width:1px;height:34px;background:linear-gradient(to bottom,rgba(247,242,234,.32),transparent);margin:0 auto}
+
+/* ─── CLIENT STRIP ───────────────────────────── */
+.cstrip{background:var(--sepia);padding:17px clamp(16px,4vw,56px)}
+.cstrip-inner{display:flex;gap:32px;justify-content:center;align-items:center;flex-wrap:wrap}
+.cbadge{
+  font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(247,242,234,.5);display:flex;gap:9px;align-items:center
+}
+.cbadge::before{content:'◆';color:var(--gold);font-size:.38rem}
+
+/* ─── SECTION COMMONS ────────────────────────── */
+.sec{padding:clamp(60px,8vw,116px) clamp(16px,4vw,56px)}
+.mw{max-width:1260px;margin:0 auto}
+.eyebrow{
+  font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:13px
+}
+.sec-h2{
+  font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.1rem);
+  font-weight:700;line-height:1.1;margin-bottom:17px
+}
+.sec-lead{font-size:1.02rem;line-height:1.82;color:var(--sepia-m)}
+
+/* ─── GALLERY ─────────────────────────────────── */
+.gal-sec{background:var(--parchment)}
+.gal-head{margin-bottom:44px}
+.pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:28px}
+.pill{
+  font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;
+  padding:8px 17px;border:1px solid rgba(154,139,125,.5);color:var(--smoke);background:transparent;transition:all .2s
+}
+.pill.active,.pill:hover{background:var(--ink);border-color:var(--ink);color:var(--parchment)}
+.gal-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:36px
+}
+@media(max-width:880px){.gal-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.gal-grid{grid-template-columns:1fr}}
+.piece{position:relative;overflow:hidden;background:var(--sepia)}
+.piece.hidden{display:none}
+.piece-img{
+  width:100%;height:330px;background-size:cover;background-position:center;
+  filter:sepia(62%) contrast(1.1) brightness(.88);transition:transform .55s ease,filter .4s ease
+}
+.piece:hover .piece-img{transform:scale(1.05);filter:sepia(22%) contrast(1.1) brightness(.96)}
+.piece-info{
+  position:absolute;bottom:0;left:0;right:0;padding:60px 20px 20px;
+  background:linear-gradient(to top,rgba(26,20,16,.92) 0%,transparent);
+  transform:translateY(5px);transition:transform .3s
+}
+.piece:hover .piece-info{transform:translateY(0)}
+.piece-cat{
+  font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gold-b);display:block;margin-bottom:3px
+}
+.piece-title{font-family:'Playfair Display',serif;font-size:.98rem;font-weight:600;color:var(--parchment);margin-bottom:3px}
+.piece-price{font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(247,242,234,.48);margin-bottom:9px}
+.piece-cta{
+  font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--parchment);border-bottom:1px solid var(--gold);padding-bottom:1px
+}
+
+/* ─── QUOTE STRIP ─────────────────────────────── */
+.qstrip{
+  background:var(--cream);border-top:1px solid rgba(154,139,125,.3);
+  border-bottom:1px solid rgba(154,139,125,.3);
+  padding:40px clamp(16px,4vw,56px);text-align:center
+}
+.qstrip blockquote{
+  font-family:'Playfair Display',serif;font-size:clamp(1.2rem,3vw,1.7rem);
+  font-style:italic;color:var(--sepia);margin-bottom:12px
+}
+.qstrip p{
+  font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--smoke)
+}
+
+/* ─── COMMERCIAL ──────────────────────────────── */
+.commercial{background:var(--ink);color:var(--parchment);position:relative;overflow:hidden}
+.commercial::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 80% 50%,rgba(184,134,11,.07) 0%,transparent 55%);
+  pointer-events:none
+}
+.comm-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+@media(max-width:800px){.comm-grid{grid-template-columns:1fr;gap:44px}}
+.commercial .sec-h2{color:var(--parchment)}
+.commercial .sec-lead{color:rgba(247,242,234,.55);max-width:none}
+.client-cards{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.ccard{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  padding:22px 18px;transition:all .25s
+}
+.ccard:hover{background:rgba(184,134,11,.08);border-color:rgba(184,134,11,.25)}
+.ccard-icon{font-size:1.5rem;margin-bottom:9px}
+.ccard-title{font-family:'Playfair Display',serif;font-size:.92rem;font-weight:600;color:var(--parchment);margin-bottom:5px}
+.ccard-desc{font-size:.8rem;line-height:1.55;color:rgba(247,242,234,.42)}
+.comm-btns{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px}
+
+/* ─── LOOKBOOK ────────────────────────────────── */
+.lookbook{background:var(--cream)}
+.lb-inner{max-width:660px;margin:0 auto;text-align:center}
+.lb-inner .sec-lead{max-width:480px;margin:0 auto}
+.lb-thumbs{display:flex;gap:3px;justify-content:center;margin:36px 0}
+.lb-thumb{
+  flex-shrink:0;width:88px;height:115px;background-size:cover;background-position:center;
+  filter:sepia(52%) contrast(1.1) brightness(.88)
+}
+.lb-thumb:nth-child(2){transform:translateY(-14px)}
+.lb-thumb:nth-child(4){transform:translateY(-8px)}
+.lb-thumb:nth-child(6){transform:translateY(-4px)}
+.lb-box{background:var(--white);border:1px solid rgba(154,139,125,.45);padding:36px;text-align:left}
+.lb-box h3{font-family:'Playfair Display',serif;font-size:1.25rem;margin-bottom:5px}
+.lb-box>p{font-size:.86rem;color:var(--smoke);margin-bottom:26px;line-height:1.6}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:13px}
+@media(max-width:540px){.frow{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--smoke)}
+.field input,.field select{
+  border:1px solid rgba(154,139,125,.55);padding:10px 13px;font-family:'Lora',serif;
+  font-size:.86rem;background:transparent;color:var(--ink);outline:none;
+  transition:border-color .2s;-webkit-appearance:none;appearance:none
+}
+.field input:focus,.field select:focus{border-color:var(--gold)}
+.lb-btn{
+  margin-top:18px;width:100%;font-family:'Space Mono',monospace;font-size:.66rem;
+  letter-spacing:.15em;text-transform:uppercase;padding:14px;background:var(--ink);
+  color:var(--parchment);border:none;transition:background .2s
+}
+.lb-btn:hover{background:var(--sepia)}
+#lb-success{
+  display:none;padding:34px;text-align:center;
+  background:rgba(184,134,11,.05);border:1px solid rgba(184,134,11,.28)
+}
+#lb-success h3{font-family:'Playfair Display',serif;font-size:1.45rem;color:var(--sepia);margin-bottom:9px}
+#lb-success p{font-size:.9rem;color:var(--sepia-m);line-height:1.72}
+
+/* ─── ABOUT ───────────────────────────────────── */
+.about{background:var(--parchment)}
+.about-inner{display:grid;grid-template-columns:1fr 1.55fr;gap:76px;align-items:start}
+@media(max-width:800px){.about-inner{grid-template-columns:1fr;gap:36px}}
+.about-portrait{
+  width:100%;aspect-ratio:3/4;
+  background:url('https://picsum.photos/seed/workshop88/400/533') center/cover no-repeat;
+  filter:sepia(42%) contrast(1.05) brightness(.9);position:relative
+}
+.about-portrait::after{
+  content:'';position:absolute;inset:0;box-shadow:inset 0 0 80px rgba(26,20,16,.25)
+}
+.about-body .sec-lead{max-width:none;margin-bottom:16px}
+.ab-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;margin-top:44px}
+.stat{border-top:1px solid rgba(154,139,125,.38);padding-top:16px}
+.stat-n{font-family:'Playfair Display',serif;font-size:2.3rem;font-weight:900;color:var(--gold);line-height:1}
+.stat-l{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;color:var(--smoke);margin-top:4px}
+
+/* ─── HOW IT WORKS (AI & PROCESS) ────────────── */
+.process{background:var(--ink);color:var(--parchment)}
+.process .sec-h2{color:var(--parchment)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px}
+@media(max-width:680px){.steps{grid-template-columns:1fr}}
+.step{padding:32px 24px;border:1px solid rgba(255,255,255,.07)}
+.step-num{
+  font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;
+  color:rgba(184,134,11,.35);line-height:1;margin-bottom:14px
+}
+.step-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:var(--parchment);margin-bottom:8px}
+.step-desc{font-size:.83rem;line-height:1.6;color:rgba(247,242,234,.44)}
+
+/* ─── FOOTER ──────────────────────────────────── */
+.footer{background:var(--ink);color:var(--parchment);padding:60px clamp(16px,4vw,56px) 28px}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.6fr;gap:44px;margin-bottom:44px}
+@media(max-width:880px){.ft-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.ft-grid{grid-template-columns:1fr}}
+.ft-logo{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin-bottom:13px}
+.ft-logo em{font-style:normal;color:var(--gold-b)}
+.ft-tag{font-size:.83rem;line-height:1.72;color:rgba(247,242,234,.42);max-width:270px}
+.ft-col-h{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:17px}
+.ft-list{list-style:none;display:flex;flex-direction:column;gap:9px}
+.ft-list a{font-size:.85rem;color:rgba(247,242,234,.42);transition:color .2s}
+.ft-list a:hover{color:var(--parchment)}
+.news-wrap{display:flex;border:1px solid rgba(247,242,234,.14);margin-top:7px}
+.news-in{
+  flex:1;background:transparent;border:none;padding:10px 12px;
+  font-family:'Lora',serif;font-size:.8rem;color:var(--parchment);outline:none
+}
+.news-in::placeholder{color:rgba(247,242,234,.22)}
+.news-btn{
+  background:var(--gold);border:none;padding:10px 13px;
+  font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink);font-weight:700;transition:background .2s
+}
+.news-btn:hover{background:var(--gold-b)}
+.ft-bottom{
+  border-top:1px solid rgba(247,242,234,.08);padding-top:22px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px
+}
+.ft-copy{font-family:'Space Mono',monospace;font-size:.53rem;letter-spacing:.1em;color:rgba(247,242,234,.22)}
+.ft-soc{display:flex;gap:16px}
+.ft-soc a{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(247,242,234,.38);transition:color .2s}
+.ft-soc a:hover{color:var(--gold-b)}
+
+/* ─── CHAT WIDGET ─────────────────────────────── */
+#chat-trigger{
+  position:fixed;bottom:26px;right:26px;z-index:999;
+  width:56px;height:56px;border-radius:50%;background:var(--gold);border:none;
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;
+  box-shadow:0 4px 22px rgba(0,0,0,.38);transition:all .2s
+}
+#chat-trigger:hover{background:var(--gold-b);transform:scale(1.06)}
+#chat-panel{
+  position:fixed;bottom:94px;right:26px;z-index:999;
+  width:346px;height:490px;background:var(--white);
+  border:1px solid rgba(154,139,125,.38);box-shadow:0 12px 46px rgba(0,0,0,.22);
+  display:flex;flex-direction:column;
+  transform:scale(.88) translateY(16px);transform-origin:bottom right;
+  opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.34,1.2,.64,1)
+}
+#chat-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
+@media(max-width:420px){#chat-panel{width:calc(100vw - 28px);right:14px}#chat-trigger{right:14px}}
+.chat-head{background:var(--ink);padding:13px 15px;display:flex;align-items:center;gap:11px}
+.chat-av{
+  width:36px;height:36px;border-radius:50%;background:var(--gold);
+  display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0
+}
+.chat-hd{flex:1}
+.chat-n{font-family:'Playfair Display',serif;font-size:.92rem;font-weight:600;color:var(--parchment)}
+.chat-st{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(247,242,234,.32)}
+#chat-close{background:none;border:none;color:rgba(247,242,234,.38);font-size:1.05rem;padding:4px;transition:color .2s}
+#chat-close:hover{color:var(--parchment)}
+#chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px}
+.msg{max-width:88%;padding:9px 12px;font-size:.8rem;line-height:1.52;font-family:'Lora',serif}
+.msg.ai{background:var(--cream);color:var(--ink);border-left:2px solid var(--gold);align-self:flex-start}
+.msg.user{background:var(--ink);color:var(--parchment);align-self:flex-end}
+.msg.thinking{background:var(--cream);border-left:2px solid var(--gold);align-self:flex-start;color:var(--smoke);font-style:italic}
+.chat-foot{border-top:1px solid rgba(154,139,125,.28);display:flex;align-items:center;padding:9px;gap:7px}
+#chat-in{
+  flex:1;border:1px solid rgba(154,139,125,.48);padding:9px 11px;
+  font-family:'Lora',serif;font-size:.8rem;color:var(--ink);outline:none;background:white;transition:border-color .2s
+}
+#chat-in:focus{border-color:var(--gold)}
+#chat-send{
+  width:36px;height:36px;background:var(--gold);border:none;
+  display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0;transition:background .2s
+}
+#chat-send:hover{background:var(--gold-b)}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ──────────────────────────────────────── -->
+<nav id="nav">
+  <div class="nav-logo">Nostalgia <em>Station</em></div>
+  <ul class="nav-links">
+    <li><a href="#collection">Collection</a></li>
+    <li><a href="#commercial">Commercial</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#about">Our Story</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="scroll2('commercial')">Request Quote</button>
+</nav>
+
+<!-- ─── HERO ──────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-vig"></div>
+  <div class="hero-content">
+    <p class="hero-eye">Auburn, Alabama &nbsp;·&nbsp; Nationally Available</p>
+    <h1 class="hero-h1">Where<br><em>History</em><br>Comes to Life</h1>
+    <p class="hero-sub">Professionally restored antique photographs and historical maps — curated for collectors, commercial spaces, and institutions that honor the past.</p>
+    <div class="hero-btns">
+      <a href="#collection" class="btn-gold">Explore the Collection</a>
+      <a href="#commercial" class="btn-ghost">Commercial Inquiries</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll to Discover</span>
+    <div class="scroll-tick"></div>
+  </div>
+</section>
+
+<!-- ─── CLIENT STRIP ──────────────────────────────── -->
+<div class="cstrip">
+  <div class="cstrip-inner">
+    <span class="cbadge">Military Installations</span>
+    <span class="cbadge">Airports &amp; Transit</span>
+    <span class="cbadge">Hospitals &amp; VA Facilities</span>
+    <span class="cbadge">Historic Sites &amp; Museums</span>
+    <span class="cbadge">Hotels &amp; Hospitality</span>
+    <span class="cbadge">Universities &amp; Libraries</span>
+  </div>
+</div>
+
+<!-- ─── GALLERY ───────────────────────────────────── -->
+<section id="collection" class="sec gal-sec">
+  <div class="mw">
+    <div class="gal-head">
+      <p class="eyebrow">The Collection</p>
+      <h2 class="sec-h2">Authentic Pieces.<br>Every One Original.</h2>
+      <p class="sec-lead" style="max-width:540px">Each photograph and map has been painstakingly restored by hand — no reproductions, no stock prints. These are genuine artifacts of history, available for private collectors and commercial installations alike.</p>
+      <div class="pills">
+        <button class="pill active" data-f="all">All Pieces</button>
+        <button class="pill" data-f="military">Military</button>
+        <button class="pill" data-f="maps">Maps &amp; Charts</button>
+        <button class="pill" data-f="states">Historic States</button>
+        <button class="pill" data-f="celestial">Celestial</button>
+        <button class="pill" data-f="lake">Southern Lake Art</button>
+      </div>
+    </div>
+    <div class="gal-grid" id="gallery"></div>
+    <div style="text-align:center;margin-top:40px">
+      <a href="#portfolio" class="btn-gold" style="font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;padding:15px 38px">View Full Portfolio PDF →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── QUOTE STRIP ───────────────────────────────── -->
+<div class="qstrip">
+  <blockquote>"History deserves walls worthy of the stories it tells."</blockquote>
+  <p>Now serving clients nationwide — digital ordering, custom sizing, full commercial service coast to coast</p>
+</div>
+
+<!-- ─── COMMERCIAL ────────────────────────────────── -->
+<section id="commercial" class="sec commercial">
+  <div class="mw comm-grid">
+    <div>
+      <p class="eyebrow">For Commercial Clients</p>
+      <h2 class="sec-h2">Curate Spaces That<br>Tell a Story</h2>
+      <p class="sec-lead">From VA hospital corridors to airport concourses, we work with facility managers, interior designers, and procurement officers to install museum-quality historical art at scale — custom sized, framed, and delivered anywhere in the country.</p>
+      <div class="comm-btns">
+        <button class="btn-gold" onclick="scroll2('portfolio')">Request Portfolio PDF</button>
+        <button class="btn-ghost" onclick="openChat()">Talk to The Archivist ✦ AI</button>
+      </div>
+    </div>
+    <div class="client-cards">
+      <div class="ccard"><div class="ccard-icon">🎖️</div><div class="ccard-title">Military Bases &amp; VA</div><p class="ccard-desc">Honor service with authentic WWI, WWII, and Civil War military portraiture and regimental history.</p></div>
+      <div class="ccard"><div class="ccard-icon">✈️</div><div class="ccard-title">Airports &amp; Transit</div><p class="ccard-desc">Create a sense of place with regional maps and city photographs that celebrate local heritage.</p></div>
+      <div class="ccard"><div class="ccard-icon">🏥</div><div class="ccard-title">Hospitals &amp; Healthcare</div><p class="ccard-desc">Healing environments benefit from the warmth and timelessness of historical photography.</p></div>
+      <div class="ccard"><div class="ccard-icon">🏛️</div><div class="ccard-title">Historic Sites &amp; Museums</div><p class="ccard-desc">Supplement permanent collections with period-authentic maps and photographic documentation.</p></div>
+      <div class="ccard"><div class="ccard-icon">🏨</div><div class="ccard-title">Hotels &amp; Hospitality</div><p class="ccard-desc">Differentiate your property with curated historical imagery guests won't find anywhere else.</p></div>
+      <div class="ccard"><div class="ccard-icon">🎓</div><div class="ccard-title">Universities &amp; Libraries</div><p class="ccard-desc">Enhance academic environments with celestial charts, state maps, and archival photography.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PORTFOLIO LOOKBOOK ─────────────────────────── -->
+<section id="portfolio" class="sec lookbook">
+  <div class="lb-inner">
+    <p class="eyebrow">Signature Collection</p>
+    <h2 class="sec-h2">Request the Portfolio</h2>
+    <p class="sec-lead">Our top 20 pieces assembled into a curated PDF — the starting point for any commercial conversation or personal selection.</p>
+    <div class="lb-thumbs">
+      <div class="lb-thumb" style="background-image:url('https://picsum.photos/seed/lb1/88/115')"></div>
+      <div class="lb-thumb" style="background-image:url('https://picsum.photos/seed/lb2/88/115')"></div>
+      <div class="lb-thumb" style="background-image:url('https://picsum.photos/seed/lb3/88/115')"></div>
+      <div class="lb-thumb" style="background-image:url('https://picsum.photos/seed/lb4/88/115')"></div>
+      <div class="lb-thumb" style="background-image:url('https://picsum.photos/seed/lb5/88/115')"></div>
+      <div class="lb-thumb" style="background-image:url('https://picsum.photos/seed/lb6/88/115')"></div>
+    </div>
+    <div class="lb-box" id="lb-form-wrap">
+      <h3>Get the Collection PDF</h3>
+      <p>We send it within the hour. No commitment required.</p>
+      <div class="frow">
+        <div class="field"><label>First Name</label><input type="text" id="lb-fn" placeholder="Jane"></div>
+        <div class="field"><label>Last Name</label><input type="text" id="lb-ln" placeholder="Morrison"></div>
+      </div>
+      <div class="frow">
+        <div class="field"><label>Email Address</label><input type="email" id="lb-em" placeholder="you@example.com"></div>
+        <div class="field"><label>Type of Space</label>
+          <select id="lb-sp">
+            <option value="">Select one…</option>
+            <option>Military Installation / VA</option>
+            <option>Airport / Transit Hub</option>
+            <option>Hospital / Healthcare</option>
+            <option>Historic Site / Museum</option>
+            <option>Hotel / Hospitality</option>
+            <option>University / Library</option>
+            <option>Private Collection</option>
+            <option>Other Commercial</option>
+          </select>
+        </div>
+      </div>
+      <button class="lb-btn" onclick="submitLookbook()">Send Me the Portfolio →</button>
+    </div>
+    <div id="lb-success">
+      <h3>Portfolio Sent ✦</h3>
+      <p>Check your inbox shortly. David will follow up personally within 24 hours to discuss how we can serve your space — whether that's one piece or an entire installation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ────────────────────────────────── -->
+<section class="sec process">
+  <div class="mw">
+    <p class="eyebrow" style="color:var(--gold)">The Process</p>
+    <h2 class="sec-h2">From Discovery to Installation</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><div class="step-title">Browse or Inquire</div><p class="step-desc">Explore the collection online, request the portfolio PDF, or chat with The Archivist — our AI assistant available 24/7 to match you with the right pieces.</p></div>
+      <div class="step"><div class="step-num">02</div><div class="step-title">Custom Quote</div><p class="step-desc">David works directly with you on sizing, framing, and scope. Commercial clients receive a full installation proposal with pricing and lead times.</p></div>
+      <div class="step"><div class="step-num">03</div><div class="step-title">Delivered Anywhere</div><p class="step-desc">Pieces ship nationwide, fully insured and professionally packaged. No trade show required — history delivered to your door or your facility.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ABOUT ──────────────────────────────────────── -->
+<section id="about" class="sec about">
+  <div class="mw about-inner">
+    <div class="about-portrait"></div>
+    <div class="about-body">
+      <p class="eyebrow">Our Story</p>
+      <h2 class="sec-h2">One Craftsman.<br>A Lifetime of History.</h2>
+      <p class="sec-lead">Nostalgia Station is the work of a single dedicated artisan based in Auburn, Alabama. Every restoration, every search, every framed piece is done by hand — and with purpose.</p>
+      <p class="sec-lead" style="margin-top:15px">What began as a passion for rescuing lost photographic history has grown into a trusted source for collectors and commercial clients across the Southeast and beyond. The collection spans restored photographs from the late 1800s to the 1970s, antique maps dating to the 1500s, and celestial charts that have survived centuries.</p>
+      <p class="sec-lead" style="margin-top:15px">Every piece tells a story. Every installation is a conversation with the past.</p>
+      <div class="ab-stats">
+        <div class="stat"><div class="stat-n">1800s</div><div class="stat-l">Earliest pieces in collection</div></div>
+        <div class="stat"><div class="stat-n">500+</div><div class="stat-l">Authenticated originals</div></div>
+        <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Personally restored by David</div></div>
+        <div class="stat"><div class="stat-n">US-wide</div><div class="stat-l">Commercial reach, fully digital</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────────────── -->
+<footer id="contact" class="footer">
+  <div class="mw">
+    <div class="ft-grid">
+      <div>
+        <div class="ft-logo">Nostalgia <em>Station</em></div>
+        <p class="ft-tag">Professionally restored antique photographs and historical maps. Auburn, Alabama — serving collectors and commercial clients nationwide.</p>
+        <p style="margin-top:18px;font-size:.8rem;color:rgba(247,242,234,.32);font-family:'Space Mono',monospace;line-height:1.8">📍 Auburn, Alabama<br>📧 david@nostalgiastation.com</p>
+      </div>
+      <div>
+        <p class="ft-col-h">Collection</p>
+        <ul class="ft-list">
+          <li><a href="#">Historic Military Photos</a></li>
+          <li><a href="#">Antique World Maps</a></li>
+          <li><a href="#">Historic U.S. States</a></li>
+          <li><a href="#">Celestial Charts</a></li>
+          <li><a href="#">Southern Lake Art</a></li>
+          <li><a href="#">Historic France &amp; Serbia</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="ft-col-h">Commercial</p>
+        <ul class="ft-list">
+          <li><a href="#portfolio">Request a Quote</a></li>
+          <li><a href="#portfolio">Portfolio PDF</a></li>
+          <li><a href="#">Custom Sizing &amp; Framing</a></li>
+          <li><a href="#">Installation Guide</a></li>
+          <li><a href="#">Client Types We Serve</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="ft-col-h">Stay Connected</p>
+        <p style="font-size:.8rem;color:rgba(247,242,234,.38);margin-bottom:13px;line-height:1.62">New arrivals, historical finds, and trade show dates — in your inbox.</p>
+        <div class="news-wrap">
+          <input class="news-in" type="email" placeholder="your@email.com">
+          <button class="news-btn">Join</button>
+        </div>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p class="ft-copy">© 2026 Nostalgia Station · Auburn, Alabama · All pieces authentic originals · No Etsy — direct only</p>
+      <div class="ft-soc">
+        <a href="https://www.facebook.com/147227642079435" target="_blank">Facebook</a>
+        <a href="https://www.instagram.com/nostalgiastation" target="_blank">Instagram</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── AI CHAT WIDGET ─────────────────────────────── -->
+<button id="chat-trigger" onclick="toggleChat()" title="Talk to The Archivist">🏺</button>
+<div id="chat-panel">
+  <div class="chat-head">
+    <div class="chat-av">🏺</div>
+    <div class="chat-hd">
+      <div class="chat-n">The Archivist</div>
+      <div class="chat-st">AI Collection Advisor · Online Now</div>
+    </div>
+    <button id="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div id="chat-msgs"></div>
+  <div class="chat-foot">
+    <input id="chat-in" type="text" placeholder="Ask about our collection…" onkeydown="if(event.key==='Enter')sendMsg()">
+    <button id="chat-send" onclick="sendMsg()">→</button>
+  </div>
+</div>
+
+<script>
+// ─── GALLERY DATA ─────────────────────────────────────
+const PIECES=[
+  {cat:'military',title:'Infantry Company Portrait, 1917',price:'From $220',img:'https://picsum.photos/seed/ns-m1/400/500'},
+  {cat:'military',title:'Civil War Officer, c.1863',price:'From $285',img:'https://picsum.photos/seed/ns-m2/400/500'},
+  {cat:'military',title:'WWII Unit Portrait, 1944',price:'From $250',img:'https://picsum.photos/seed/ns-m3/400/500'},
+  {cat:'maps',title:'Antique World Map, c.1680',price:'From $340',img:'https://picsum.photos/seed/ns-mp1/400/500'},
+  {cat:'maps',title:'Historic American Map, 1820',price:'From $195',img:'https://picsum.photos/seed/ns-mp2/400/500'},
+  {cat:'states',title:'Historic Alabama, 1890s',price:'From $165',img:'https://picsum.photos/seed/ns-st1/400/500'},
+  {cat:'states',title:'Georgia City Scene, 1910',price:'From $185',img:'https://picsum.photos/seed/ns-st2/400/500'},
+  {cat:'celestial',title:'Celestial Chart, c.1720',price:'From $310',img:'https://picsum.photos/seed/ns-cel/400/500'},
+  {cat:'lake',title:'Southern Lakeside, 1940s',price:'From $145',img:'https://picsum.photos/seed/ns-lk1/400/500'},
+];
+const LABELS={military:'Historic Military',maps:'Maps & Charts',states:'Historic States',celestial:'Celestial',lake:'Southern Lake Art'};
+
+function renderGallery(f){
+  document.getElementById('gallery').innerHTML=PIECES.map(p=>`
+    <div class="piece${f&&f!=='all'&&p.cat!==f?' hidden':''}" data-cat="${p.cat}">
+      <div class="piece-img" style="background-image:url('${p.img}')"></div>
+      <div class="piece-info">
+        <span class="piece-cat">${LABELS[p.cat]||p.cat}</span>
+        <div class="piece-title">${p.title}</div>
+        <div class="piece-price">${p.price}</div>
+        <span class="piece-cta">Inquire →</span>
+      </div>
+    </div>`).join('');
+}
+
+// ─── NAV SCROLL ───────────────────────────────────────
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+});
+
+// ─── GALLERY FILTER ───────────────────────────────────
+document.addEventListener('DOMContentLoaded',()=>{
+  renderGallery('all');
+  document.querySelectorAll('.pill').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.pill').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGallery(btn.dataset.f);
+    });
+  });
+});
+
+// ─── SMOOTH SCROLL UTIL ───────────────────────────────
+function scroll2(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'})}
+
+// ─── LOOKBOOK FORM ────────────────────────────────────
+function submitLookbook(){
+  const n=document.getElementById('lb-fn').value.trim();
+  const e=document.getElementById('lb-em').value.trim();
+  if(!n||!e){alert('Please enter your name and email.');return;}
+  document.getElementById('lb-form-wrap').style.display='none';
+  document.getElementById('lb-success').style.display='block';
+}
+
+// ─── CHAT ─────────────────────────────────────────────
+let chatOpen=false;
+const history=[];
+
+const SYS=`You are The Archivist — the warm, knowledgeable AI sales advisor for Nostalgia Station, a premier dealer of professionally restored antique photographs and historical maps based in Auburn, Alabama, serving clients nationwide.
+
+Collection includes:
+• Historic Military Photographs (WWI, WWII, Civil War, Vietnam era)
+• Antique World Maps (some dating to the 1500s)
+• Historic U.S. State Photographs (late 1800s–1970s)
+• Celestial Maps and Astrological Charts
+• Historic France and Serbia photographs
+• Southern Lake Art — pastoral American South lake scenes
+• Historic American Regional Maps
+
+Commercial clients: military bases, VA hospitals, airports, hotels, universities, historic sites, museums, libraries. Custom sizing and framing available. Ships nationwide.
+
+Goals:
+1. Understand what they need (type of space, subject, aesthetic)
+2. Recommend the right category with a historical detail or two
+3. For commercial clients: mention the portfolio PDF and offer to connect with David (owner/master restorer) personally
+4. Capture name and email to send the portfolio or set up a consultation
+5. Keep replies concise — 2–4 sentences max. This is a chat widget.
+
+End any lead capture with: "I'll make sure David reaches out personally within 24 hours."`;
+
+function toggleChat(){
+  chatOpen=!chatOpen;
+  document.getElementById('chat-panel').classList.toggle('open',chatOpen);
+  if(chatOpen&&history.length===0){
+    appendMsg('ai',"Welcome to Nostalgia Station. I'm The Archivist — I can help you find the perfect piece or explore our commercial installation options. What kind of space or subject are you interested in?");
+  }
+}
+
+function openChat(){chatOpen=false;toggleChat()}
+
+function appendMsg(role,text){
+  const el=document.createElement('div');
+  el.className=`msg ${role}`;el.textContent=text;
+  const m=document.getElementById('chat-msgs');
+  m.appendChild(el);m.scrollTop=m.scrollHeight;
+  return el;
+}
+
+async function sendMsg(){
+  const inp=document.getElementById('chat-in');
+  const txt=inp.value.trim();if(!txt)return;
+  inp.value='';
+  appendMsg('user',txt);
+  history.push({role:'user',content:txt});
+  const thinking=appendMsg('thinking','Searching the archives…');
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:1000,
+        system:SYS,
+        messages:history
+      })
+    });
+    const d=await res.json();
+    const reply=d.content?.[0]?.text||'Apologies — could you try again?';
+    thinking.remove();
+    appendMsg('ai',reply);
+    history.push({role:'assistant',content:reply});
+  }catch(err){
+    thinking.remove();
+    appendMsg('ai','My connection seems disrupted. Reach out directly at david@nostalgiastation.com — we respond within the hour.');
+  }
+}
+</script>
+</body>
+</html>
